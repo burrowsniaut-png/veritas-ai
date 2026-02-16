@@ -23,19 +23,7 @@ def analyze_with_deepseek(text):
     response = requests.post(url, json=data, timeout=600)
     return response.json()['response']
 
-# Get URLs (max 25)
-urls = []
-print("Enter URLs (one per line). Type 'done' when finished. Max 25:")
-while len(urls) < 25:
-    url = input("URL: ").strip()
-    if url.lower() == 'done':
-        break
-    if url:
-        if not url.startswith('http'):
-            url = 'https://' + url
-        urls.append(url)
 
-results = []
 
 for i, url in enumerate(urls, 1):
     print(f"\n{'='*60}")
@@ -70,4 +58,5 @@ for i, url in enumerate(urls, 1):
 
 print(f"\n{'='*60}")
 print(f"DONE. {len([r for r in results if r['status']=='ok'])} succeeded.")
+
 print(f"{'='*60}")
