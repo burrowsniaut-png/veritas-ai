@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import os
 from datetime import datetime
-from ai_detector_pro import analyze_urls
+from ai_detector_pro import scrape_website,analyze_with_deepseek
 
 app = Flask(__name__, template_folder="templates")
 app.secret_key = 'your-secret-key-here'
@@ -79,4 +79,5 @@ def analyze():
 if __name__ == '__main__':
 
     app.run(debug=True, port=5000)
+
 
