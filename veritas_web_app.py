@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from ai_detector_pro import scrape_website,analyze_with_deepseek
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder=".")
 app.secret_key = 'your-secret-key-here'
 
 # Simple "database" - in production use real database
@@ -79,6 +79,7 @@ def analyze():
 if __name__ == '__main__':
 
     app.run(debug=True, port=5000)
+
 
 
 
