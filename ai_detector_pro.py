@@ -25,38 +25,5 @@ def analyze_with_deepseek(text):
 
 
 
-for i, url in enumerate(urls, 1):
-    print(f"\n{'='*60}")
-    print(f"[{i}/{len(urls)}] {url}")
-    print(f"{'='*60}")
-    
-    try:
-        text = scrape_website(url)
-        print(f"Scraped {len(text)} chars")
-        
-        print("Analyzing (up to 10 minutes)...")
-        result = analyze_with_deepseek(text)
-        
-        print(f"\nVERITAS ANALYSIS:")
-        print(result)
-        print(f"{'='*60}\n")
-        
-        results.append({"url": url, "analysis": result, "status": "ok"})
-        
-        with open('veritas_results.json', 'w') as f:
-            json.dump(results, f, indent=2)
-        
-        if i < len(urls):
-            print("Cooling down (5s)...")
-            time.sleep(5)
-            
-    except Exception as e:
-        print(f"\nFAILED: {e}")
-        results.append({"url": url, "error": str(e), "status": "fail"})
-        with open('veritas_results.json', 'w') as f:
-            json.dump(results, f, indent=2)
 
-print(f"\n{'='*60}")
-print(f"DONE. {len([r for r in results if r['status']=='ok'])} succeeded.")
 
-print(f"{'='*60}")
