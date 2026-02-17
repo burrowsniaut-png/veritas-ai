@@ -40,7 +40,7 @@ def analyze_with_deepseek(text):
     import requests
     import json
     
-    url = "http://localhost:11434/api/generate"
+    url = "https://deena-proadvertizing-XXXX.ngrok-free.app/api/generate"
     
     data = {
         "model": "deepseek-r1:1.5b",
@@ -54,3 +54,4 @@ def analyze_with_deepseek(text):
         return response.json()['response']
     except Exception as e:
         return f"Error analyzing text: {str(e)}"
+
