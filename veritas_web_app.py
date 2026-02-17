@@ -51,9 +51,16 @@ def analyze():
     if not urls:
         return "No URLs provided"
     
-    try:
-        results_list = []
+    results_list = []
 for url in urls:
+    try:
+        text = scrape_website(url)
+        analysis = analyze_with_deepseek(text)
+        results_list.append({'url': url, 'analysis': analysis, 'status': 'ok'})
+    except Exception as e:
+        results_list.append({'url': url, 'error': str(e), 'status': 'fail'})
+        
+
     try:
         text = scrape_website(url)
         analysis = analyze_with_deepseek(text)
@@ -86,6 +93,7 @@ for url in urls:
 if __name__ == '__main__':
 
     app.run(debug=True, port=5000)
+
 
 
 
