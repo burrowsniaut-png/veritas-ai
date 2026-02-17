@@ -53,7 +53,7 @@ def analyze():
     
     results_list = []
 for url in urls:
-    try:
+        try:
         text = scrape_website(url)
         analysis = analyze_with_deepseek(text)
         results_list.append({'url': url, 'analysis': analysis, 'status': 'ok'})
@@ -93,6 +93,7 @@ for url in urls:
 if __name__ == '__main__':
 
     app.run(debug=True, port=5000)
+
 
 
 
