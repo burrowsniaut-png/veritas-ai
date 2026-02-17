@@ -18,7 +18,31 @@ def scrape_website(url):
         
         # Get text from main content areas first
         main_content = soup.find('main') or soup.find('article') or soup.find('div', class_='content')
+def analyze_with_deepseek(text):
+    import requests
+    
+    API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
+    headers = {"Authorization": "Bearer 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"}
+    
+    prompt = f"Analyze this text and determine if it was written by a human or AI. Give a percentage estimate (0-100%) and brief reasoning. Text: {text[:1000]}"
+    
+    payload = {
+        "inputs": prompt,
+        "parameters": {"max_new_tokens": 200, "temperature": 0.7}
+    }
+    
+    try:
+        response = requests.post(API_URL, headers=headers, json=payload, timeout=60)
+        response.raise_for_status()
+        result = response.json()
         
+        if isinstance(result, list) and len(result) > 0:
+            return result[0].get('generated_text', 'No analysis generated')
+        else:
+            return str(result)
+            
+    except Exception as e:
+        return f"Error analyzing text: {str(e)}"        
         if main_content:
             text = main_content.get_text(separator=' ', strip=True)
         else:
@@ -36,23 +60,7 @@ def scrape_website(url):
     except Exception as e:
         return f"Error scraping website: {str(e)}"
 
-def analyze_with_deepseek(text):
-    import requests
-    import json
-    
-    url = "https://deena-proadvertizing-unshrewdly.ngrok-free.dev/api/generate"
-    
-    data = {
-        "model": "deepseek-r1:1.5b",
-        "prompt": f"Analyze this text and determine if it was written by a human or AI. Give a percentage estimate (0-100%) and brief reasoning. Text: {text[:2000]}",
-        "stream": False
-    }
-    
-    try:
-        response = requests.post(url, json=data, timeout=600)
-        response.raise_for_status()
-        return response.json()['response']
-    except Exception as e:
-        return f"Error analyzing text: {str(e)}"
+
+
 
 
